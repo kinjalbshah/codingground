@@ -21,7 +21,7 @@ namespace TDS
         private string _uri;
 
         public Serial_Shipping_Container_Code()
-        {
+        {   //test checkin - check out
             _EPC_Scheme = "sscc";
         }
         public void Config(string CompanyPrefix, string SerialReference)
