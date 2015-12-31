@@ -63,15 +63,15 @@ namespace TDS
     /// <summary>
     /// A 'ConcreteProduct' class
     /// </summary>
-    public class Global_Location_Number : IEPC
+    public class Aerospace_Defense_ID : IEPC
     {
         private string _EPC_Scheme;
         private string _CompanyPrefix;
         private string _LocationReference;
         private string _Extension;
         private string _uri;
-        public Global_Location_Number(string CompanyPrefix, string LocationReference, string Extension) {
-            _EPC_Scheme = "sgln";
+        public Aerospace_Defense_ID(string CompanyPrefix, string LocationReference, string Extension) {
+            _EPC_Scheme = "ADI";
             _CompanyPrefix = CompanyPrefix;
             _LocationReference = LocationReference;
             _Extension = Extension;
@@ -81,7 +81,7 @@ namespace TDS
         public string uri()
         {
             _uri = "urn:epc:id:" + _EPC_Scheme +":"+ _CompanyPrefix + "." + _LocationReference+"."+_Extension;
-            Console.WriteLine("uri of the Global_Location_Number : " + _uri);
+            Console.WriteLine("uri of the Aerospace_Defense_ID : " + _uri);
             return _uri;
         }
 
@@ -94,7 +94,7 @@ namespace TDS
             info.AddValue("URI", _uri);
         }
 
-        public Global_Location_Number(SerializationInfo info, StreamingContext ctxt)
+        public Aerospace_Defense_ID(SerializationInfo info, StreamingContext ctxt)
         {
             //Get the values from info and assign them to the appropriate properties
 
@@ -146,7 +146,7 @@ namespace TDS
             
             Console.WriteLine("URI from Deserialize", ssc2.uri());
 
-            TDS.Global_Location_Number SGLN_Object = new Global_Location_Number("0614141", "12345", "400");
+            TDS.Aerospace_Defense_ID SGLN_Object = new Aerospace_Defense_ID("0614141", "12345", "400");
             Type Obj1 = SGLN_Object.GetType();
             string str1 = SGLN_Object.ToString(); 
             SGLN_Object.uri();
