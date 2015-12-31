@@ -12,6 +12,7 @@ namespace TDS
     public interface IEPC : ISerializable
     {
         string uri();
+        void  save(string filename);
          
     }
 
@@ -57,30 +58,37 @@ namespace TDS
             
             _uri= (String)info.GetValue("URI", typeof(string));
         }
+        public void  save(string filename){
+            Stream stream = File.Open(filename, FileMode.Create);
+            BinaryFormatter bformatter = new BinaryFormatter();
+            bformatter.Serialize(stream, this);
+            stream.Close();
+        }
 
     }
 
     /// <summary>
     /// A 'ConcreteProduct' class
     /// </summary>
+    [Serializable()]
     public class Aerospace_Defense_ID : IEPC
     {
         private string _EPC_Scheme;
-        private string _CompanyPrefix;
-        private string _LocationReference;
-        private string _Extension;
+        private string _Code;
+        private string _Part;
+        private string _Serial;
         private string _uri;
-        public Aerospace_Defense_ID(string CompanyPrefix, string LocationReference, string Extension) {
+        public Aerospace_Defense_ID(string code, string part, string serial) {
             _EPC_Scheme = "ADI";
-            _CompanyPrefix = CompanyPrefix;
-            _LocationReference = LocationReference;
-            _Extension = Extension;
+            _Code =  code;
+            _Part = part;
+            _Serial = serial;
         }
 
        
         public string uri()
         {
-            _uri = "urn:epc:id:" + _EPC_Scheme +":"+ _CompanyPrefix + "." + _LocationReference+"."+_Extension;
+            _uri = "urn:epc:id:" + _EPC_Scheme +":"+ _Code + "." + _Part+"."+_Serial;
             Console.WriteLine("uri of the Aerospace_Defense_ID : " + _uri);
             return _uri;
         }
@@ -99,6 +107,12 @@ namespace TDS
             //Get the values from info and assign them to the appropriate properties
 
             _uri = (String)info.GetValue("URI", typeof(string));
+        }
+        public void  save(string filename){
+            Stream stream = File.Open(filename, FileMode.Create);
+            BinaryFormatter bformatter = new BinaryFormatter();
+            bformatter.Serialize(stream, this);
+            stream.Close();
         }
 
     }
@@ -127,17 +141,13 @@ namespace TDS
             // Note:- you can give any extension you want for your file
             // If you use custom extensions, then the user will now 
             //   that the file is associated with your program.
-            Stream stream = File.Open("TDS.txt", FileMode.Create);
-            BinaryFormatter bformatter = new BinaryFormatter();
 
-            Console.WriteLine("Writing object Information");
-            bformatter.Serialize(stream, ssc2);
-            stream.Close();
+            ssc2.save("TDS.txt");
 
             //Deserialize the values by reading it from the file
             //Open the file written above and read values from it.
-            stream = File.Open("TDS.txt", FileMode.Open);
-            bformatter = new BinaryFormatter();
+            Stream stream = File.Open("TDS.txt", FileMode.Open);
+            BinaryFormatter bformatter = new BinaryFormatter();
 
             Console.WriteLine("Reading Object Information");
             ssc2 = (Serial_Shipping_Container_Code)bformatter.Deserialize(stream);
@@ -146,11 +156,11 @@ namespace TDS
             
             Console.WriteLine("URI from Deserialize", ssc2.uri());
 
-            TDS.Aerospace_Defense_ID SGLN_Object = new Aerospace_Defense_ID("0614141", "12345", "400");
+            TDS.Aerospace_Defense_ID SGLN_Object = new Aerospace_Defense_ID("W81X9C", "3KL984PX1", "2WMA52");
             Type Obj1 = SGLN_Object.GetType();
             string str1 = SGLN_Object.ToString(); 
             SGLN_Object.uri();
-            
+            SGLN_Object.save("ADI.txt");
             Console.ReadKey();
 
         }
