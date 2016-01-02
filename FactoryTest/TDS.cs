@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-
+using System.Text;
 
 namespace TDS
 {
@@ -36,6 +36,7 @@ namespace TDS
         
         public string uri()
         {
+              
             _uri= "urn:epc:id:"+_EPC_Scheme+"." + _CompanyPrefix + "." + _SerialReference;
 
             
@@ -86,6 +87,18 @@ namespace TDS
 
         public string uri()
         {
+//#if 
+            StringBuilder builder = new StringBuilder();
+            builder.Append("urn:epc:id:");
+            builder.Append(_EPC_Scheme);
+            builder.Append(":");
+            builder.Append(_CompanyPrefix);
+            builder.Append(".");
+            builder.Append(_ItemRef);
+            builder.Append(".");
+            builder.Append(_Serial);
+            _uri = builder.ToString();
+
             _uri = "urn:epc:id:" + _EPC_Scheme + ":" + _CompanyPrefix + "." + _ItemRef + "." + _Serial;
             Console.WriteLine("uri of the Serialized_Global_Trade_Item_Number : " + _uri);
             return _uri;
@@ -136,6 +149,19 @@ namespace TDS
        
         public string uri()
         {
+            // This block needs to be in #if for net framework , Stringbuilder is more efficent then string
+            StringBuilder builder = new StringBuilder();
+            builder.Append("urn:epc:id:");
+            builder.Append(_EPC_Scheme);
+            builder.Append(":");
+            builder.Append(_Code);
+            builder.Append(".");
+            builder.Append(_Part);
+            builder.Append(".");
+            builder.Append(_Serial);
+            _uri = builder.ToString();
+
+
             _uri = "urn:epc:id:" + _EPC_Scheme +":"+ _Code + "." + _Part+"."+_Serial;
             Console.WriteLine("uri of the Aerospace_Defense_ID : " + _uri);
             return _uri;
