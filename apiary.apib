@@ -1,0 +1,84 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# JoinGEAPM 
+
+Lets POLL for Joining GE APM again till same mamangement preset
+
+## Team Collection [/teams]
+
+### List All Teams [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "teams": "Favourite Team to Join?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Alerts",
+                        "votes": 2048
+                    }, {
+                        "choice": "Nilgiri",
+                        "votes": 3000
+                    }, {
+                        "choice": "Demo",
+                        "votes": 512
+                    }, {
+                        "choice": "OPM",
+                        "votes": 256
+                    },
+                    {
+                        "choice": "Meridium-Foundation",
+                        "votes": 10
+                    }
+                ]
+            }
+        ]
+
+### Create a New team  [POST]
+
+You may create your own team using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Dashboard",
+                "Timeseries",
+                "Predix-DB",
+                "OutSideMarket"
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Response1",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "OutSideMarket",
+                        "votes": 0
+                    }
+                ]
+            }
